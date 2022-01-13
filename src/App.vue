@@ -1,30 +1,23 @@
 <template>
   <div>
     <header>
-      <h1> 12th January, 2022 vue-ts blank test. </h1>
+      <h1> 13th January, 2022 vue-ts blank test. </h1>
     </header>
     <main>
-      <TodoList :item="todoItem" @input="updateTodoItem" @add="addTodoItem"></TodoList>
+      <TodoList :item="todoItem" @update="updateTodoItem" @add="addTodoItem"></TodoList>
       <ul>
-        <TodoListItems v-for="(todoItem, index) in todoItems" :key="index" :todoItem="todoItem" :index="index"
-        @remove="removeTodoItem" @toggle="toggleTodoItem"></TodoListItems>
+        <TodoItemList v-for="(todoItem, index) in todoItems" :key="index" :item="todoItem" :index="index" @toggle="toggleTodoItem" @remove="removeTodoItem"></TodoItemList> <!-- (todoItem, ) 과 :item="todoItem"이 동일해야 하네 -->
       </ul>
     </main>
-
   </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue'
     import TodoList from "@/components/TodoList.vue";
-    import TodoListItems from "@/components/TodoListItems.vue";
+    import TodoItemList from "@/components/TodoItemList.vue";
 
-    export interface Todo {
-      title: string,
-      done: boolean
-    }
-
-    const STORAGE_KEY = "12-jan-vue-ts"
+    const STORAGE_KEY = "13-jan-vue-ts"
     const storage = {
       save(value: Todo[]) {
         const parsed = JSON.stringify(value)
@@ -34,11 +27,16 @@
         const value = localStorage.getItem(STORAGE_KEY) || "[]"
         const result = JSON.parse(value)
         return result
-      }
+      },
+    }
+
+    export interface Todo {
+      title: string,
+      done: boolean
     }
 
     export default Vue.extend ({
-      components: {TodoListItems, TodoList},
+      components: {TodoItemList, TodoList},
       data() {
         return {
           todoItem: "init",
@@ -47,7 +45,11 @@
       },
       methods: {
         updateTodoItem(value: string) {
-          this.todoItem = value;
+          this.todoItem = value
+
+        },
+        initTodoItem() {
+          this.todoItem = ""
         },
         addTodoItem() {
           const value = this.todoItem
@@ -59,11 +61,8 @@
           storage.save(this.todoItems)
           this.initTodoItem()
         },
-        initTodoItem() {
-          this.todoItem = ""
-        },
         fetchTodoItem() {
-          this.todoItems = storage.fetch().sort((a, b) => { // 새로고침 안 누르고 바로 정렬되게 하려면 어떻게해야할까? 고민해보고 적용해보기
+          this.todoItems = storage.fetch().sort((a, b) => {
             if (a.title > b.title) {
               return 1;
             }
@@ -74,10 +73,10 @@
           });
           storage.save(this.todoItems)
         },
-        toggleTodoItem(value: Todo, index: number) {
+        toggleTodoItem(item: Todo, index: number) {
           this.todoItems.splice(index, 1, {
-            ...value,
-            done: !value.done
+            ...item,
+            done: !item.done
           })
           storage.save(this.todoItems)
         },
@@ -85,12 +84,10 @@
           this.todoItems.splice(index, 1)
           storage.save(this.todoItems)
         }
-
       },
-      created() {  // 이게 정확히 무엇을 의미하는지 좀 알아야겠다. 뭔 의미가 있지? 없는 것과는 뭔 차이가 있지?
-        this.fetchTodoItem()
+      created() {
+        this.fetchTodoItem();
       }
-
     })
 </script>
 

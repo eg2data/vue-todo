@@ -1,8 +1,8 @@
 <template>
   <div>
-    <label for="todo-list">오늘 할 일: </label>
+    <label for="todo-list"> Today's things </label>
     <input id="todo-list" type="text" :value="item" @input="updateItem"/>
-    <button type="text" @click="addItem">추가</button>
+    <button type="button" @click="addItem"> ADD </button>
   </div>
 </template>
 
@@ -13,13 +13,13 @@
       props: {
         item: {
           type: String,
-          required: true
+          required: true,
         }
       },
       methods: {
         updateItem(event: InputEvent) {
           const eventTarget = event.target as HTMLInputElement
-          this.$emit("input", eventTarget.value)
+          this.$emit("update", eventTarget.value)
         },
         addItem() {
           this.$emit("add")
