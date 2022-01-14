@@ -1,7 +1,7 @@
 <template>
   <div>
-    <label for="todo-list"> Today's things </label>
-    <input id="todo-list" type="text" :value="item" @input="updateItem"/>
+    <label for="todo-list"> Today's tasks </label>
+    <input id="todo-list" type="text" @input="updateItem" :value="item"/>
     <button type="button" @click="addItem"> ADD </button>
   </div>
 </template>
@@ -13,7 +13,7 @@
       props: {
         item: {
           type: String,
-          required: true,
+          required: true
         }
       },
       methods: {
