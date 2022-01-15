@@ -1,8 +1,8 @@
 <template>
   <div>
     <li>
-      <span class="item" :class="toggleTodo" @click="toggleItem"> {{ item.title }} </span>
-      <button @click="removeItem">DEL</button>
+      <span @click="toggleItem" class="item" :class="completeItem"> {{ item.title }} </span>
+      <button type="button" @click="removeItem"> DEL </button>
     </li>
   </div>
 </template>
@@ -14,7 +14,7 @@ import {Todo} from "@/App.vue";
     export default Vue.extend ({
       props: {
         item: {
-          type: Object as PropType<Todo>,
+          type: Object as PropType<Todo>
         },
         index: {
           type: Number
@@ -29,7 +29,7 @@ import {Todo} from "@/App.vue";
         }
       },
       computed: {
-        toggleTodo(): string | null {
+        completeItem(): string | null {
           return this.item.done ? "completed" : null
         }
       }

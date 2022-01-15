@@ -1,7 +1,7 @@
 <template>
   <div>
-    <label for="todo-list"> Today's tasks </label>
-    <input id="todo-list" type="text" @input="updateItem" :value="item"/>
+    <label for="todo-list"> Today's jobs: </label>
+    <input id="todo-list" type="text" :value="item" @input="updateItem"/>
     <button type="button" @click="addItem"> ADD </button>
   </div>
 </template>
